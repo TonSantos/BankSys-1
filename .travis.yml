@@ -3,7 +3,6 @@ language: java
 
 # JDK versios support
 jdk:
-  - openjdk7
   - oraclejdk7
   - oraclejdk8
 
