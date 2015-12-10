@@ -132,19 +132,4 @@ public class BankController {
 			throw new IncompatibleAccountException(number);
 		}
 	}
-
-	public int numberOfAccounts() {
-		return this.repository.mumberOfAccounts();
-	}
-
-	public double balance() {
-		double banckBalance = 0;
-		if (this.repository.mumberOfAccounts() > 0) {
-			AbstractAccount[] accounts = this.repository.list();
-			for (int i = 0; i < accounts.length; i++) {
-				banckBalance += accounts[i].getBalance();
-			}
-		}
-		return banckBalance;
-	}
 }
