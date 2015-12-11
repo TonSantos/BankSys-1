@@ -8,30 +8,34 @@ import arcatch.rule.ArCatchException;
 import arcatch.rule.ArCatchModule;
 import arcatch.rule.DesignRule;
 
-public class BankSysEHDTest {
+public class BankSysEHDesignTest {
 	private ArCatchModule view;
 	private ArCatchModule controller;
 	private ArCatchModule account;
 	private ArCatchModule data;
 
-	private ArCatchException nae;
+	private ArCatchException negativeAccountException;
+	private ArCatchException accountExceptions;
 
-	public BankSysEHDTest() {
+	public BankSysEHDesignTest() {
 		ArCatch.targetSystem("./build/classes");
 		view = ArCatch.newModule("BankView");
 		view.setMappingRegex("");
 
-		controller = ArCatch.newModule("BankCTL");
+		controller = ArCatch.newModule("Controller");
 		controller.setMappingRegex("");
 
-		account = ArCatch.newModule("BanckAccount");
+		account = ArCatch.newModule("Account");
 		account.setMappingRegex("banksys.account.[A-Za-z_$]+[a-zA-Z0-9_$]Account*");
 
-		data = ArCatch.newModule("BanckData");
+		data = ArCatch.newModule("Data");
 		data.setMappingRegex("");
 
-		nae = ArCatch.newException("NAE");
-		nae.setMappingRegex("banksys.account.exception.NegativeAmountException");
+		negativeAccountException = ArCatch.newException("NegativeAccountException");
+		negativeAccountException.setMappingRegex("banksys.account.exception.NegativeAmountException");
+
+		accountExceptions = ArCatch.newException("AccountExceptions");
+		accountExceptions.setMappingRegex("banksys.account.exception..[A-Za-z_$]+[a-zA-Z0-9_$]Exception*");
 	}
 
 	@Before
@@ -43,26 +47,32 @@ public class BankSysEHDTest {
 	}
 
 	@Test
+	public void testOnlyAccoutCanRaiseAccountExceptions() {
+		DesignRule rule = ArCatch.newRule().only(account).canRaise(accountExceptions).build();
+		Assert.assertTrue(ArCatch.check(rule));
+	}
+
+	@Test
 	public void testOnlyAccoutCanRaiseNegativeAmountException() {
-		DesignRule rule = ArCatch.newRule().only(account).canRaise(nae).build();
+		DesignRule rule = ArCatch.newRule().only(account).canRaise(negativeAccountException).build();
 		Assert.assertTrue(ArCatch.check(rule));
 	}
 
 	@Test
 	public void testOnlyAccoutCanSignalNegativeAmountException() {
-		DesignRule rule = ArCatch.newRule().only(account).canSignal(nae).build();
+		DesignRule rule = ArCatch.newRule().only(account).canSignal(negativeAccountException).build();
 		Assert.assertTrue(ArCatch.check(rule));
 	}
 
 	@Test
 	public void testAccoutCannotHandleNegativeAmountException() {
-		DesignRule rule = ArCatch.newRule().module(account).cannotHandle(nae).build();
+		DesignRule rule = ArCatch.newRule().module(account).cannotHandle(negativeAccountException).build();
 		Assert.assertTrue(ArCatch.check(rule));
 	}
 
 	@Test
 	public void testOnlyAccoutCanSignalNegativeAmountExceptionToController() {
-		DesignRule rule = ArCatch.newRule().only(account).canSignal(nae).to(controller).build();
+		DesignRule rule = ArCatch.newRule().only(account).canSignal(negativeAccountException).to(controller).build();
 		Assert.assertTrue(ArCatch.check(rule));
 	}
 }
