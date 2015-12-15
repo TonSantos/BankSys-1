@@ -1,6 +1,0 @@
-Testsuite: BankSysEHDesignTest
-Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0,657 sec
-
-Testcase: testOnlyAccoutCanSignalAccountExceptionsToController took 0,02 sec
-Testcase: testOnlyAccountCanSignalAccountExceptions took 0 sec
-Testcase: testOnlyAccountCanRaiseAccountExceptions took 0,002 sec
