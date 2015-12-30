@@ -16,6 +16,7 @@ public class BankSysEHDesignTest {
 	private ArCatchException accountExceptions = ArCatch.newException("ACCEx");
 	private ArCatchException persistenceExceptions = ArCatch.newException("PEREx");
 	private ArCatchException controllerExceptions = ArCatch.newException("CTLEx");
+	
 
 	public BankSysEHDesignTest() {
 		ArCatch.targetSystem("./build/jar/BankSys.jar");
@@ -33,7 +34,7 @@ public class BankSysEHDesignTest {
 		persistenceExceptions.setMappingRegex("banksys.persistence.exception.[A-Za-z_$]+[a-zA-Z0-9_$]*Exception");
 
 		controllerExceptions.setMappingRegex("banksys.control.exception.[A-Za-z_$]+[a-zA-Z0-9_$]*Exception");
-
+		
 	}
 
 	@Before
@@ -61,4 +62,194 @@ public class BankSysEHDesignTest {
 		DesignRule rule = ArCatch.newRule().only(account).canSignal(accountExceptions).to(controller).build();
 		Assert.assertTrue(ArCatch.check(rule));
 	}
+	
+	@Test
+	public void testOnlyAccoutCanRaiseAccountExceptions() {
+		DesignRule rule = ArCatch.newRule().only(account).canRaise(accountExceptions).build();
+		Assert.assertTrue(ArCatch.check(rule));
+	}
+
+	
+	@Test
+	public void testOnlyPersistenceCanSignalPersistenceExceptions() {
+		DesignRule rule = ArCatch.newRule().only(persistence).canSignal(persistenceExceptions).build();
+		Assert.assertTrue(ArCatch.check(rule));
+	}
+	
+	@Test
+	public void testOnlyControllerCanSignalControlExceptions() {
+		DesignRule rule = ArCatch.newRule().only(controller).canSignal(controllerExceptions).build();
+		Assert.assertTrue(ArCatch.check(rule));
+	}
+	
+	
+	@Test
+	public void testOnlyPersistenceCanRaisePersistenceExceptions() {
+		DesignRule rule = ArCatch.newRule().only(persistence).canRaise(persistenceExceptions).build();
+		Assert.assertTrue(ArCatch.check(rule));
+	}
+	
+	@Test
+	public void testOnlyControllerCanRaiseControlExceptions() {
+		DesignRule rule = ArCatch.newRule().only(controller).canRaise(controllerExceptions).build();
+		Assert.assertTrue(ArCatch.check(rule));
+	}
+	
+	
+	@Test
+	public void testViewCanHandleOnlyControlExceptions() {
+		DesignRule rule = ArCatch.newRule().module(view).canHandleOnly(controllerExceptions).build();
+		Assert.assertTrue(ArCatch.check(rule));
+	}
+	
+	@Test
+	public void testControllerCanSignalOnlyControlExceptionsToView() {
+		DesignRule rule = ArCatch.newRule().module(controller).canSignalOnly(controllerExceptions).to(view).build();
+		Assert.assertTrue(ArCatch.check(rule));
+	}
+	
+	@Test
+	public void testAccountCanSignalOnlyAccountExceptionsToController() {
+		DesignRule rule = ArCatch.newRule().module(account).canSignalOnly(accountExceptions).to(controller).build();
+		Assert.assertTrue(ArCatch.check(rule));
+	}
+	
+	@Test
+	public void testPersistenceCanSignalOnlyPersistenceExceptionsToAccount() {
+		DesignRule rule = ArCatch.newRule().module(persistence).canSignalOnly(persistenceExceptions).to(account).build();
+		Assert.assertTrue(ArCatch.check(rule));
+	}
+	
+	@Test
+	public void testPersistenceCanSignalOnlyPersistenceExceptionsToController() {
+		DesignRule rule = ArCatch.newRule().module(persistence).canSignalOnly(persistenceExceptions).to(controller).build();
+		Assert.assertTrue(ArCatch.check(rule));
+	}
+	
+	@Test
+	public void testPersistenceCannotHandlePersistenceExceptions() {
+		DesignRule rule = ArCatch.newRule().module(persistence).cannotHandle(persistenceExceptions).build();
+		Assert.assertTrue(ArCatch.check(rule));
+	}
+	
+	@Test
+	public void testControllerCannotHandleControlExceptions() {
+		DesignRule rule = ArCatch.newRule().module(controller).cannotHandle(controllerExceptions).build();
+		Assert.assertTrue(ArCatch.check(rule));
+	}
+	
+	@Test
+	public void testPersistenceCanHandleOnlyAccountExceptions() {
+		DesignRule rule = ArCatch.newRule().module(persistence).canHandleOnly(accountExceptions).build();
+		Assert.assertTrue(ArCatch.check(rule));
+	}
+	
+	@Test
+	public void testOnlyAccountCanSignalAccountExceptionsToPersistence() {
+		DesignRule rule = ArCatch.newRule().only(account).canSignal(accountExceptions).to(persistence).build();
+		Assert.assertTrue(ArCatch.check(rule));
+	}
+	
+	@Test
+	public void testOnlyPersistenceCanSignalPersistenceExceptionsToController() {
+		DesignRule rule = ArCatch.newRule().only(persistence).canSignal(persistenceExceptions).to(controller).build();
+		Assert.assertTrue(ArCatch.check(rule));
+	}
+	
+	@Test
+	public void testOnlyAccountCanSignalAccountExceptionsToController() {
+		DesignRule rule = ArCatch.newRule().only(account).canSignal(accountExceptions).to(controller).build();
+		Assert.assertTrue(ArCatch.check(rule));
+	}
+	
+	@Test
+	public void testOnlyPersistenceCanSignalPersistenceExceptionsToAccount() {
+		DesignRule rule = ArCatch.newRule().only(persistence).canSignal(persistenceExceptions).to(account).build();
+		Assert.assertTrue(ArCatch.check(rule));
+	}
+	
+	@Test
+	public void testOnlyControllerCanSignalControlExceptionsToPersistence() {
+		DesignRule rule = ArCatch.newRule().only(controller).canSignal(controllerExceptions).to(persistence).build();
+		Assert.assertTrue(ArCatch.check(rule));
+	}
+	
+	@Test
+	public void testOnlyControllerCanSignalControlExceptionsToAccount() {
+		DesignRule rule = ArCatch.newRule().only(controller).canSignal(controllerExceptions).to(account).build();
+		Assert.assertTrue(ArCatch.check(rule));
+	}
+	
+	@Test
+	public void testOnlyControllerCanSignalControlExceptionsToView() {
+		DesignRule rule = ArCatch.newRule().only(controller).canSignal(controllerExceptions).to(view).build();
+		Assert.assertTrue(ArCatch.check(rule));
+	}
+	
+	@Test
+	public void testOnlyPersistenceCanSignalPersistenceExceptionsToView() {
+		DesignRule rule = ArCatch.newRule().only(persistence).canSignal(persistenceExceptions).to(view).build();
+		Assert.assertTrue(ArCatch.check(rule));
+	}
+	
+	@Test
+	public void testOnlyAccountCanSignalAccountExceptionsToView() {
+		DesignRule rule = ArCatch.newRule().only(account).canSignal(accountExceptions).to(view).build();
+		Assert.assertTrue(ArCatch.check(rule));
+	}
+	
+	@Test
+	public void testControllerMustSignalControlExceptions() {
+		DesignRule rule = ArCatch.newRule().module(controller).mustSignal(controllerExceptions).build();
+		Assert.assertTrue(ArCatch.check(rule));
+	}
+	
+	@Test
+	public void testControllerMustHandlePersistenceExceptions() {
+		DesignRule rule = ArCatch.newRule().module(controller).mustHandle(persistenceExceptions).build();
+		Assert.assertTrue(ArCatch.check(rule));
+	}
+	
+	@Test
+	public void testOnlyControllerCanHandlePersistenceExceptions() {
+		DesignRule rule = ArCatch.newRule().only(controller).canHandle(persistenceExceptions).build();
+		Assert.assertTrue(ArCatch.check(rule));
+	}
+	
+	@Test
+	public void testControllerCanRaiseControlExceptions() {
+		DesignRule rule = ArCatch.newRule().module(controller).canRaiseOnly(controllerExceptions).build();
+		Assert.assertTrue(ArCatch.check(rule));
+	}
+	
+	@Test
+	public void testControllerCanSignalOnlyControlExceptions() {
+		DesignRule rule = ArCatch.newRule().module(controller).canSignalOnly(controllerExceptions).build();
+		Assert.assertTrue(ArCatch.check(rule));
+	}
+	
+	@Test
+	public void testControllerCannotRaiseAccountExceptions() {
+		DesignRule rule = ArCatch.newRule().module(controller).cannotRaise(accountExceptions).build();
+		Assert.assertTrue(ArCatch.check(rule));
+	}
+	
+	@Test
+	public void testControllerCannotSignalAccountExceptions() {
+		DesignRule rule = ArCatch.newRule().module(controller).cannotSignal(accountExceptions).build();
+		Assert.assertTrue(ArCatch.check(rule));
+	}
+	
+	@Test
+	public void testControllerCannotSignalControlExceptionsToAccount() {
+		DesignRule rule = ArCatch.newRule().module(controller).cannotSignal(controllerExceptions).to(account).build();
+		Assert.assertTrue(ArCatch.check(rule));
+	}
+	
+	@Test
+	public void testControllerMustRaiseControlExceptions() {
+		DesignRule rule = ArCatch.newRule().module(controller).mustRaise(controllerExceptions).build();
+		Assert.assertTrue(ArCatch.check(rule));
+	}
+	
 }
