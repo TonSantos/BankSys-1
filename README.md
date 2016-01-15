@@ -12,11 +12,11 @@ BankSys...
     * Transfer
     * Balance
  * Have proper care of exception handling
-    * raising
-    * signaling
-    * handling
-    * propagation
-    * remapping
+    * Raising
+    * Signaling
+    * Handling
+    * Propagation
+    * Remapping
  * Uses ArCatchJ to check the architectural conformation of exception handling
    * Mapping between the architectural entities and implementing entities
    * Has 34 defined design rules
@@ -26,7 +26,7 @@ BankSys...
 Contemplated Rules
 -------------------
  * Context
-    * ID - Rule - TOTAL
+    * ID - Rule - Total
     * M = Module
     * E = Exception
   
