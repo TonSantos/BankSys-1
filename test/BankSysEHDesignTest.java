@@ -1,7 +1,7 @@
-import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 
 import arcatch.ArCatch;
 import arcatch.rule.ArCatchException;
@@ -9,17 +9,23 @@ import arcatch.rule.ArCatchModule;
 import arcatch.rule.DesignRule;
 
 public class BankSysEHDesignTest {
-	private ArCatchModule view = ArCatch.newModule("VIEW");
-	private ArCatchModule controller = ArCatch.newModule("CTL");
-	private ArCatchModule account = ArCatch.newModule("ACC");
-	private ArCatchModule persistence = ArCatch.newModule("PER");
-	private ArCatchException accountExceptions = ArCatch.newException("ACCEx");
-	private ArCatchException persistenceExceptions = ArCatch.newException("PEREx");
-	private ArCatchException controllerExceptions = ArCatch.newException("CTLEx");
+	private static ArCatchModule view = ArCatch.newModule("VIEW");
+	private static ArCatchModule controller = ArCatch.newModule("CTL");
+	private static ArCatchModule account = ArCatch.newModule("ACC");
+	private static ArCatchModule persistence = ArCatch.newModule("PER");
+	private static ArCatchException accountExceptions = ArCatch.newException("ACCEx");
+	private static ArCatchException persistenceExceptions = ArCatch.newException("PEREx");
+	private static ArCatchException controllerExceptions = ArCatch.newException("CTLEx");
 	
 
 	public BankSysEHDesignTest() {
+		
 		ArCatch.targetSystem("./build/jar/BankSys.jar");
+		
+	}
+	
+	@BeforeClass
+	public static void oneTimeSetUp() {
 
 		view.setMappingRegex("banksys.atm.ATM24H");
 
@@ -36,15 +42,15 @@ public class BankSysEHDesignTest {
 		controllerExceptions.setMappingRegex("banksys.control.exception.[A-Za-z_$]+[a-zA-Z0-9_$]*Exception");
 		
 	}
+	
+	@AfterClass
+	public static void oneTimeTearDown() {
 
-	@Before
-	public void setUp() throws Exception {
+		ArCatch.printReport();
+
 	}
-
-	@After
-	public void tearDown() throws Exception {
-	}
-
+	
+	
 	@Test
 	public void testOnlyAccountCanRaiseAccountExceptions() {
 		DesignRule rule = ArCatch.newRule().only(account).canRaise(accountExceptions).build();
