@@ -119,7 +119,7 @@ Checking the Conformation Architectural
 
 2. Run the build.xml<br/>
 
-3. View the report generated in the subdirectory build/report:<br/>
+3. View the report generated in the subdirectory build/report<br/>
 
 Running the Project
 -------------------
