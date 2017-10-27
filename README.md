@@ -1,4 +1,4 @@
-# BankSys ([![Build Status](https://travis-ci.org/lincolnrocha/BankSys.svg)](https://travis-ci.org/lincolnrocha /BankSys))
+[![Build Status](https://travis-ci.org/lincolnrocha/BankSys.svg?branch=master)](https://travis-ci.org/lincolnrocha/BankSys)
 
 BankSys is a simple Java system, for academic purposes, used as a tool example in check correctness of ArcatchJ.
 
