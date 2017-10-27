@@ -1,4 +1,4 @@
-SysBank Workflow
+BankSys Workflow
 
 Step 1) Starting
 $ git checkout master
